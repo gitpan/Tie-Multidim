@@ -3,5 +3,5 @@ use ExtUtils::MakeMaker;
 # the contents of the Makefile that is written.
 WriteMakefile(
     'NAME'	=> 'Tie::Multidim',
-    'VERSION_FROM' => 'Multidim.pm', # finds $VERSION
+    'VERSION_FROM' => 'lib/Tie/Multidim.pm', # finds $VERSION
 );

@@ -4,7 +4,7 @@ package Tie::Multidim;
 use strict;
 use vars qw( $VERSION );
 
-$VERSION = '0.03';
+$VERSION = '0.04';
 
 
 =head1 NAME
@@ -62,10 +62,6 @@ This illustrates (2):
    # with $x = 'human', $y = 666, and $z = 'beast'.
  }
 
-=pod
-
-E<11>
-E<12>
 
 =head1 METHODS
 
@@ -90,7 +86,8 @@ so on.
 =cut
 
 	sub new {
-		my( $pkg, $object, $level_types, @index ) = @_;
+		my( $pkg, $storage, $level_types, @index ) = @_;
+#		print "new( @_ )\n";
 		$level_types =~ s/[^@%]//;
 		length $level_types or
 			die "Level types string contains no level types!";
@@ -98,7 +95,7 @@ so on.
 		my $level_type = substr $level_types, scalar @index, 1;
 
 		my $tied = bless {
-			'object' => $object,
+			'storage' => $storage,
 			'level_types' => $level_types,
 			'index' => [ @index ], # copy
 			'sep' => $;,
@@ -114,7 +111,7 @@ so on.
 			tie %h, $pkg, $tied;
 			return \%h;
 		}
-		else { die }
+		else { die "Illegal level type? '$level_types'\n" }
 	}
 
 	sub FETCHSIZE {
@@ -128,12 +125,12 @@ so on.
 
 		@{ $self->{'index'} } < length( $self->{'level_types'} )-1 and
 			return new Tie::Multidim
-				$self->{'object'},
+				$self->{'storage'},
 				$self->{'level_types'},
 				@{ $self->{'index'} }, $index;
 
 		# do the real, final index:
-		$self->{'object'}{ join $;, @{ $self->{'index'} }, $index }
+		$self->{'storage'}{ join $;, @{ $self->{'index'} }, $index }
 	}
 
 	sub STORE {
@@ -146,28 +143,29 @@ so on.
 		@{ $self->{'index'} } == length( $self->{'level_types'} )-1 or die "YOW!";
 
 		# do the real, final index:
-		$self->{'object'}{ join $;, @{ $self->{'index'} }, $index } = $value;
+		$self->{'storage'}{ join $;, @{ $self->{'index'} }, $index } = $value;
 	}
 
 
-=head2 object
+=head2 storage
 
 This returns the same hash reference that was passed as the first
 argument to the constructor.
+Not exactly a method, it must be called as a package function,
+and passed the multidim reference.
 
-	my %h;
-	my $foo = new Tie::Multidim, \%h, '@@';
-	my $hashref = $m->object;
-	# same effect as
-	my $hashref = \%h;
+	$foo = new Tie::Multidim, \%h, '@@';
+	$hashref = Tie::Multidim::storage( $foo );
+	# same effect as:
+	$hashref = \%h;
 
 =cut
 
-	sub object {
-		my $self = shift;
-		$self =~ /\bARRAY\b/ and return( tied( @$self )->{'object'} );
-		$self =~ /\bHASH\b/ and return( tied( %$self )->{'object'} );
-		die "'$self': not an array or hash ref!";
+	sub storage {
+		my $tied_ref = shift;
+		$tied_ref =~ /\bARRAY\b/ and return( tied( @$tied_ref )->{'storage'} );
+		$tied_ref =~ /\bHASH\b/ and return( tied( %$tied_ref )->{'storage'} );
+		die "'$tied_ref': not an array or hash ref!";
 	}
 
 
@@ -179,6 +177,8 @@ argument to the constructor.
 =head1 AUTHOR
 
 jdporter@min.net (John Porter)
+
+=head1 COPYRIGHT
 
 This module is free software; you may redistribute it and/or
 modify it under the same terms as Perl itself.

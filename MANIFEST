@@ -1,6 +1,6 @@
 Changes
 Makefile.PL
 MANIFEST
-Multidim.pm
+lib/Tie/Multidim.pm
 README
 test.pl

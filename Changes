@@ -1,5 +1,8 @@
 Revision history for Perl extension Tie::Multidim.
 
+0.04  Tue Oct 26 15:44:45 EDT 1999
+	- Moved .pm into lib/Tie; cleaned up pod a little.
+
 0.03  Fri Aug  6 16:29:06 1999
 	- Fixed docs, which had references to the OLD name of this module.
 
@@ -7,5 +10,5 @@ Revision history for Perl extension Tie::Multidim.
 	- Added README file, missing from first upload.
 
 0.01  Wed Jul 14 13:24:32 1999
-	- original version; created by h2xs 1.18
+	- original version; created by John Porter, with h2xs 1.18
 
