@@ -1,10 +1,10 @@
 
     Tie::Multidim - "tie"-like multidimensional data structures
-    (Version 0.02 -- August 1999)
+    (Version 0.03 -- August 1999)
 
 
      use Tie::Multidim;
-     my $foo = new Multidimensional \%h, '%@%';
+     my $foo = new Tie::Multidim \%h, '%@%';
      $foo->[2]{'die'}[4] = "isa";
 
 
@@ -22,7 +22,7 @@
 
      my %matrix; # hash to store the data in.
      local $; = ' ';
-     my $foo = new Multidimensional \%matrix, '@@'; # array-of-arrays.
+     my $foo = new Tie::Multidim \%matrix, '@@'; # array-of-arrays.
 
      print $foo->[5432][9876];
      # prints the value of  $matrix{"5432 9876"}.
@@ -32,7 +32,7 @@
      my %matrix;
      tie %matrix, 'Matrix';  # some hashtie-able class.
      local $; = ";"; # gets remembered by the object.
-     my $foo = new Multidimensional \%matrix, '%@%';
+     my $foo = new Tie::Multidim \%matrix, '%@%';
      # 3-level structure: hash of arrays of hashes.
 
      $foo->{'human'}[666]{'beast'} = "value";

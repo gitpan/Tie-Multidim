@@ -1,5 +1,8 @@
 Revision history for Perl extension Tie::Multidim.
 
+0.03  Fri Aug  6 16:29:06 1999
+	- Fixed docs, which had references to the OLD name of this module.
+
 0.02  Thu Aug  5 15:30:57 1999
 	- Added README file, missing from first upload.
 

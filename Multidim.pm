@@ -4,7 +4,7 @@ package Tie::Multidim;
 use strict;
 use vars qw( $VERSION );
 
-$VERSION = '0.02';
+$VERSION = '0.03';
 
 
 =head1 NAME
@@ -14,7 +14,7 @@ Tie::Multidim - "tie"-like multidimensional data structures
 =head1 SYNOPSIS
 
  use Tie::Multidim;
- my $foo = new Multidimensional \%h, '%@%';
+ my $foo = new Tie::Multidim \%h, '%@%';
  $foo->[2]{'die'}[4] = "isa";
 
 =head1 DESCRIPTION
@@ -39,7 +39,7 @@ This illustrates (1):
 
  my %matrix; # hash to store the data in.
  local $; = ' ';
- my $foo = new Multidimensional \%matrix, '@@'; # array-of-arrays.
+ my $foo = new Tie::Multidim \%matrix, '@@'; # array-of-arrays.
 
  print $foo->[5432][9876];
  # prints the value of  $matrix{"5432 9876"}.
@@ -50,7 +50,7 @@ This illustrates (2):
  my %matrix;
  tie %matrix, 'Matrix';  # some hashtie-able class.
  local $; = ";"; # gets remembered by the object.
- my $foo = new Multidimensional \%matrix, '%@%';
+ my $foo = new Tie::Multidim \%matrix, '%@%';
  # 3-level structure: hash of arrays of hashes.
 
  $foo->{'human'}[666]{'beast'} = "value";
